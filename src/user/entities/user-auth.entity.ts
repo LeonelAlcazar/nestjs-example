@@ -11,7 +11,7 @@ export class UserAuth extends BasicEntity {
   })
   email: string;
   @Column({
-    type: 'longtext',
+    type: 'text',
     nullable: false,
   })
   password: string;
