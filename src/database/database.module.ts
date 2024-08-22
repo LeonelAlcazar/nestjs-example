@@ -9,8 +9,9 @@ import configuration from 'src/config/configuration';
     TypeOrmModule.forRootAsync({
       inject: [configuration.KEY],
       useFactory: (configService: ConfigType<typeof configuration>) => {
+        console.log(configService.database);
         return <TypeOrmModuleOptions>{
-          type: 'mysql',
+          type: 'postgres',
           database: configService.database.name,
           username: configService.database.username,
           password: configService.database.password,
@@ -18,9 +19,11 @@ import configuration from 'src/config/configuration';
           port: +configService.database.port,
           synchronize: false,
           autoLoadEntities: true,
+          entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         };
       },
     }),
   ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

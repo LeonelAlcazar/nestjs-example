@@ -8,12 +8,13 @@ import { UserModule } from './user/user.module';
 import { LotteryModule } from './lottery/lottery.module';
 import { CommonModule } from './common/common.module';
 import configuration from './config/configuration';
-import Joi from 'joi';
+import * as Joi from 'joi';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       load: [configuration],
       validationSchema: Joi.object({
         PORT: Joi.number().default(3000),

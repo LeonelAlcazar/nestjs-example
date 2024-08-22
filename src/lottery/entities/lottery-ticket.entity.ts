@@ -1,6 +1,6 @@
 import { BasicEntity } from 'src/database/basic.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Lottery } from './lottery.entity';
+import { Lottery } from 'src/lottery/entities/lottery.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity()

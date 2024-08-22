@@ -9,11 +9,19 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import configuration from 'src/config/configuration';
 import { ConfigType } from '@nestjs/config';
 import { UserController } from './controllers/user/user.controller';
+import { CommonModule } from 'src/common/common.module';
+import { UserAuthController } from './controllers/user-auth/user-auth.controller';
+import { OperatorModule } from 'src/operator/operator.module';
 
 @Module({
-  imports: [WalletModule, TypeOrmModule.forFeature([User, UserAuth])],
+  imports: [
+    WalletModule,
+    TypeOrmModule.forFeature([User, UserAuth]),
+    CommonModule,
+    OperatorModule,
+  ],
   providers: [UserService, UserAuthService],
   exports: [UserService],
-  controllers: [UserController],
+  controllers: [UserController, UserAuthController],
 })
 export class UserModule {}

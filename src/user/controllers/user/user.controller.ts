@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { UrlUtilsService } from 'src/common/services/url-utils/url-utils.service';
+import { OperatorAuthentication } from 'src/operator/decorators/operator-authentication.decorator';
+import { UserAuthentication } from 'src/user/decorators/user-authentication.decorator';
 import { UserFindDTO } from 'src/user/dtos/user-find.dto';
 import { UserRegisterDTO } from 'src/user/dtos/user-register.dto';
 import { UserAuthGuard } from 'src/user/guards/user-auth/user-auth.guard';
@@ -22,6 +24,7 @@ export class UserController {
     private urlUtilsService: UrlUtilsService,
   ) {}
 
+  @OperatorAuthentication()
   @Get('/')
   async findAll(@Query() query: UserFindDTO) {
     const { criteria, pagination } =
@@ -30,7 +33,7 @@ export class UserController {
     return this.userService.findAll(criteria, pagination);
   }
 
-  @UseGuards(UserAuthGuard)
+  @UserAuthentication()
   @Get('/me')
   async me(@Req() req: Request) {
     return this.userService.findOne({ id: req['user'].id });
