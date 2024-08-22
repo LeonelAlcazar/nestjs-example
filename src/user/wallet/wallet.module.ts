@@ -16,5 +16,6 @@ import { OperatorModule } from 'src/operator/operator.module';
   ],
   providers: [WalletService],
   controllers: [WalletController],
+  exports: [WalletService],
 })
 export class WalletModule {}

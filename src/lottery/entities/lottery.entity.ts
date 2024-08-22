@@ -50,4 +50,11 @@ export class Lottery extends BasicEntity {
     nullable: false,
   })
   endAt: Date;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  winningNumber: string | null;
 }
