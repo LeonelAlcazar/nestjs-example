@@ -12,16 +12,21 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { OperatorAuthService } from '../operator-auth/operator-auth.service';
 import { ConfigType } from '@nestjs/config';
 import configuration from 'src/config/configuration';
+import { OperatorAuth } from 'src/operator/entities/operator-auth.entity';
 
 @Injectable()
 export class OperatorService {
   constructor(
     @InjectRepository(Operator)
     private operatorRepository: Repository<Operator>,
+    @InjectRepository(OperatorAuth)
+    private operatorAuthRepository: Repository<OperatorAuth>,
     private operatorAuthService: OperatorAuthService,
     @Inject(configuration.KEY)
     private configService: ConfigType<typeof configuration>,
-  ) {}
+  ) {
+    this.setup();
+  }
 
   async setup() {
     const operators = await this.findAll({}, { page: 1, limit: 1 });
@@ -76,6 +81,11 @@ export class OperatorService {
       data.password,
     );
 
-    return this.operatorRepository.save(operator);
+    await this.operatorRepository.save(operator);
+
+    operator.auth.operatorId = operator.id;
+    await this.operatorAuthRepository.save(operator.auth);
+
+    return operator;
   }
 }

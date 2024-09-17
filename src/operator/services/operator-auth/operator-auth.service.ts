@@ -33,6 +33,8 @@ export class OperatorAuthService {
       where: { email },
     });
 
+    console.log(operatorAuth, email, password);
+
     if (!operatorAuth) {
       throw new UnauthorizedException('Unauthorized');
     }
