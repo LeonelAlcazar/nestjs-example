@@ -12,16 +12,8 @@ async function bootstrap() {
     .setTitle('Quini5')
     .setDescription('Quini5 API de loteria')
     .setVersion('1.0')
-    .addBearerAuth({
-      type: 'http',
-      scheme: 'bearer',
-      name: 'user auth',
-    })
-    .addBearerAuth({
-      type: 'http',
-      scheme: 'bearer',
-      name: 'operator auth',
-    })
+    .addBearerAuth(undefined, 'user auth')
+    .addBearerAuth(undefined, 'operator auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

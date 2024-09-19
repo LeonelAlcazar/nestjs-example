@@ -44,7 +44,7 @@ export class OperatorAuthService {
       throw new UnauthorizedException('Unauthorized');
     }
 
-    const payload = { sub: operatorAuth.id };
+    const payload = { sub: operatorAuth.operatorId };
     return { access_token: this.jwtService.sign(payload) };
   }
 }

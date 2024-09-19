@@ -28,6 +28,7 @@ export class OperatorAuthGuard implements CanActivate {
       return true;
     }
     const token = this.extractTokenFromHeader(request);
+    console.log(token);
 
     if (!token) {
       throw new UnauthorizedException('Unauthorized');
@@ -35,7 +36,9 @@ export class OperatorAuthGuard implements CanActivate {
 
     try {
       const payload = await this.jwtService.verifyAsync(token);
+      console.log(payload);
       const operator = await this.operatorService.findOne({ id: payload.sub });
+      console.log(operator);
       request.operator = operator;
       return true;
     } catch {
