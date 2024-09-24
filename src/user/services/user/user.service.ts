@@ -9,6 +9,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { UserAuthService } from '../user-auth/user-auth.service';
 import { Pagination } from 'src/common/types/pagination.type';
 import { UserRegisterDTO } from 'src/user/dtos/user-register.dto';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class UserService {
@@ -43,7 +44,7 @@ export class UserService {
     return user;
   }
 
-  async register(data: UserRegisterDTO): Promise<User> {
+  async register(data: UserRegisterDTO): Promise<any> {
     const userExists = await this.userRepository.findOne({
       where: { email: data.email },
     });
@@ -55,13 +56,24 @@ export class UserService {
     const user = new User();
     user.name = data.name;
     user.email = data.email;
-    user.auth = await this.userAuthService.generateAuth(
+
+    // Guarda el usuario primero
+    const savedUser = await this.userRepository.save(user);
+
+    // Genera la autenticación y la relaciona con el usuario
+    const userAuth = await this.userAuthService.generateAuth(
       data.email,
       data.password,
+      savedUser,
     );
 
-    await this.userRepository.save(user);
+    // Asigna el auth al usuario
+    savedUser.auth = userAuth;
 
-    return user;
+    // Actualiza el usuario
+    await this.userRepository.save(savedUser);
+
+    // Convirtiendo a JSON plano sin las referencias circulares
+    return instanceToPlain(savedUser);
   }
 }

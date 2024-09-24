@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class UserAuthService {
@@ -13,11 +14,20 @@ export class UserAuthService {
     private jwtService: JwtService,
   ) {}
 
-  async generateAuth(email: string, password: string): Promise<UserAuth> {
+  async generateAuth(
+    email: string,
+    password: string,
+    user: User,
+  ): Promise<UserAuth> {
     const userAuth = new UserAuth();
     userAuth.email = email;
     userAuth.password = await bcrypt.hash(password, 10);
-    return userAuth;
+
+    // Establecemos la relación con el usuario
+    userAuth.user = user;
+
+    // Guardamos el UserAuth en la base de datos
+    return await this.userAuthRepository.save(userAuth);
   }
 
   async login(
@@ -32,7 +42,7 @@ export class UserAuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const match = bcrypt.compare(password, userAuth.password);
+    const match = await bcrypt.compare(password, userAuth.password);
 
     if (!match) {
       throw new UnauthorizedException('Invalid credentials');
