@@ -1,10 +1,12 @@
 import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { UrlUtilsService } from 'src/common/services/url-utils/url-utils.service';
 import { LotteryTicketCreateDTO } from 'src/lottery/dtos/lottery-ticket-create.dto';
 import { LotteryTicketService } from 'src/lottery/services/lottery-ticket/lottery-ticket.service';
 import { UserAuthentication } from 'src/user/decorators/user-authentication.decorator';
 
+@ApiTags('lottery-ticket')
 @Controller('lottery/ticket')
 export class LotteryTicketController {
   constructor(

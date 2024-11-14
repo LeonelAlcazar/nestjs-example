@@ -8,6 +8,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { UrlUtilsService } from 'src/common/services/url-utils/url-utils.service';
 import { OperatorAuthentication } from 'src/operator/decorators/operator-authentication.decorator';
@@ -17,6 +18,7 @@ import { UserRegisterDTO } from 'src/user/dtos/user-register.dto';
 import { UserAuthGuard } from 'src/user/guards/user-auth/user-auth.guard';
 import { UserService } from 'src/user/services/user/user.service';
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(

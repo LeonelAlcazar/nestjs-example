@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { OperatorAuthentication } from 'src/operator/decorators/operator-authentication.decorator';
 import { OperatorRegisterDTO } from 'src/operator/dtos/operator-register.dto';
 import { OperatorService } from 'src/operator/services/operator/operator.service';
 
+@ApiTags('operator')
 @Controller('operator')
 export class OperatorController {
   constructor(private operatorService: OperatorService) {}

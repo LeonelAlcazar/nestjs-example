@@ -7,7 +7,9 @@ import { Request } from 'express';
 import { RequestWithdrawal } from '../../dtos/request-withdrawal.dto';
 import { WithdrawalStatus } from '../../entities/withdrawal.entity';
 import { ChangeWithdrawalStatus } from '../../dtos/change-withdrawal-status.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('wallet')
 @Controller('user/:id/wallet')
 export class WalletController {
   constructor(private walletService: WalletService) {}
