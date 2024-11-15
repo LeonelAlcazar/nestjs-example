@@ -17,7 +17,7 @@ export class WalletController {
   @UserAuthentication()
   @Get('/')
   async getBalance(@Param('id') id: string) {
-    this.walletService.getUserBalance(id);
+    return this.walletService.getUserBalance(id);
   }
 
   @OperatorAuthentication()

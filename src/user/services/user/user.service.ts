@@ -74,6 +74,6 @@ export class UserService {
     await this.userRepository.save(savedUser);
 
     // Convirtiendo a JSON plano sin las referencias circulares
-    return instanceToPlain(savedUser);
+    return this.findOne({ id: savedUser.id });
   }
 }

@@ -20,6 +20,6 @@ import { CommonModule } from 'src/common/common.module';
     CommonModule,
   ],
   providers: [LotteryService, LotteryTicketService],
-  controllers: [LotteryController, LotteryTicketController],
+  controllers: [LotteryTicketController, LotteryController],
 })
 export class LotteryModule {}
