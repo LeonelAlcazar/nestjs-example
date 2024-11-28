@@ -10,9 +10,25 @@ import { CommonModule } from './common/common.module';
 import configuration from './config/configuration';
 import * as Joi from 'joi';
 import { JwtModule } from '@nestjs/jwt';
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisModule } from '@nestjs-modules/ioredis';
+import { redisStore } from 'cache-manager-redis-yet';
+import { CcacheModule } from './ccache/ccache.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({}),
+        new winston.transports.File({
+          filename: 'combined.log',
+        }),
+      ],
+    }),
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
@@ -31,9 +47,18 @@ import { JwtModule } from '@nestjs/jwt';
       }),
     }),
     DatabaseModule,
-    OperatorModule,
-    UserModule,
-    LotteryModule,
+    RedisModule.forRootAsync({
+      inject: [configuration.KEY],
+      useFactory: (configService: ConfigType<typeof configuration>) => ({
+        type: 'single',
+        options: {
+          host: configService.redis.host,
+          port: configService.redis.port,
+          password: configService.redis.password,
+        },
+      }),
+    }),
+
     CommonModule,
     JwtModule.registerAsync({
       global: true,
@@ -43,6 +68,33 @@ import { JwtModule } from '@nestjs/jwt';
         signOptions: { expiresIn: configService.jwt.expirationTime },
       }),
     }),
+    CacheModule.register({
+      isGlobal: true,
+      max: 10000,
+    }),
+
+    /* CacheModule.registerAsync({
+      inject: [configuration.KEY],
+      useFactory: async (configService: ConfigType<typeof configuration>) => {
+        const store = await redisStore({
+          socket: {
+            host: configService.redis.host,
+            port: configService.redis.port,
+          },
+          password: configService.redis.password,
+        });
+
+        return {
+          store,
+          isGlobal: true,
+          ttl: 1000 * 60 * 60,
+        };
+      },
+    }), */
+    OperatorModule,
+    UserModule,
+    LotteryModule,
+    CcacheModule,
   ],
   controllers: [AppController],
   providers: [AppService],

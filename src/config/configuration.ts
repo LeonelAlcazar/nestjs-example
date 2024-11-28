@@ -22,4 +22,9 @@ export default registerAs('configuration', () => ({
       password: process.env.DEFAULT_OPERATOR_PASSWORD,
     },
   },
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT, 10) || 6379,
+    password: process.env.REDIS_PASSWORD,
+  },
 }));
