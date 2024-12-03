@@ -14,6 +14,24 @@ export class UserAuthService {
     private jwtService: JwtService,
   ) {}
 
+  async validateToken(token: string): Promise<{ userId: number }> {
+    try {
+      const { sub: userId } = await this.jwtService.verifyAsync(token);
+
+      const userAuth = await this.userAuthRepository.findOne({
+        where: { userId },
+      });
+
+      if (!userAuth) {
+        throw new UnauthorizedException('Invalid token');
+      }
+
+      return { userId };
+    } catch (e) {
+      throw new UnauthorizedException('Invalid token');
+    }
+  }
+
   async generateAuth(
     email: string,
     password: string,

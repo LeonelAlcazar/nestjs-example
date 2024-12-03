@@ -8,6 +8,7 @@ import { Pagination } from 'src/common/types/pagination.type';
 import { LotteryCreateDTO } from 'src/lottery/dtos/lottery-create.dto';
 import { LotteryTicket } from 'src/lottery/entities/lottery-ticket.entity';
 import { Lottery, LotteryStatus } from 'src/lottery/entities/lottery.entity';
+import { ChatGateway } from 'src/user/gateways/chat/chat.gateway';
 import { WalletService } from 'src/user/wallet/services/wallet/wallet.service';
 import { FindOptionsWhere, Repository } from 'typeorm';
 
@@ -20,6 +21,7 @@ export class LotteryService {
     private lotteryTicketRepository: Repository<LotteryTicket>,
     private walletService: WalletService,
     private schedulerRegistry: SchedulerRegistry,
+    private chatGateway: ChatGateway,
   ) {
     this.start();
   }
@@ -124,6 +126,15 @@ export class LotteryService {
         await this.walletService.addIncome(winner.userId, amount);
       }
 
+      this.chatGateway.sendMessage(
+        'message',
+        {
+          username: 'System',
+          message: `La loteria con id=${lotteryId} ha sido cerrada, el numero ganador es ${winningNumber}`,
+        },
+        'room-general',
+      );
+
       return this.lotterRepository.save(lottery);
     } catch (e) {
       throw e;
@@ -142,7 +153,7 @@ export class LotteryService {
     return numbers.join('');
   }
 
-  @Cron(CronExpression.EVERY_MINUTE, {
+  @Cron(CronExpression.EVERY_10_SECONDS, {
     name: 'automaticCloseLotteries',
   })
   async automaticCloseLotteries() {

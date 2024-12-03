@@ -10,6 +10,7 @@ import { UserAuthService } from '../user-auth/user-auth.service';
 import { Pagination } from 'src/common/types/pagination.type';
 import { UserRegisterDTO } from 'src/user/dtos/user-register.dto';
 import { instanceToPlain } from 'class-transformer';
+import { ChatGateway } from 'src/user/gateways/chat/chat.gateway';
 
 @Injectable()
 export class UserService {
@@ -17,6 +18,7 @@ export class UserService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private userAuthService: UserAuthService,
+    private chatGateway: ChatGateway,
   ) {}
 
   async findAll(
@@ -40,6 +42,12 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
+    this.chatGateway.sendMessage(
+      'message',
+      user.name + ' Fuiste buscado',
+      'room-' + user.id,
+    );
 
     return user;
   }

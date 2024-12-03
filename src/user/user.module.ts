@@ -12,6 +12,7 @@ import { UserController } from './controllers/user/user.controller';
 import { CommonModule } from 'src/common/common.module';
 import { UserAuthController } from './controllers/user-auth/user-auth.controller';
 import { OperatorModule } from 'src/operator/operator.module';
+import { ChatGateway } from './gateways/chat/chat.gateway';
 
 @Module({
   imports: [
@@ -20,8 +21,8 @@ import { OperatorModule } from 'src/operator/operator.module';
     CommonModule,
     OperatorModule,
   ],
-  providers: [UserService, UserAuthService],
-  exports: [UserService],
+  providers: [UserService, UserAuthService, ChatGateway],
+  exports: [UserService, ChatGateway],
   controllers: [UserController, UserAuthController],
 })
 export class UserModule {}
