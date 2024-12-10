@@ -24,9 +24,7 @@ export class OperatorService {
     private operatorAuthService: OperatorAuthService,
     @Inject(configuration.KEY)
     private configService: ConfigType<typeof configuration>,
-  ) {
-    this.setup();
-  }
+  ) {}
 
   async setup() {
     const operators = await this.findAll({}, { page: 1, limit: 1 });

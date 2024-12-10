@@ -37,19 +37,23 @@ export class UserService {
   }
 
   async findOne(criteria: FindOptionsWhere<User>): Promise<User> {
-    const user = await this.userRepository.findOne({ where: criteria });
+    try {
+      const user = await this.userRepository.findOne({ where: criteria });
 
-    if (!user) {
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      this.chatGateway.sendMessage(
+        'message',
+        user.name + ' Fuiste buscado',
+        'room-' + user.id,
+      );
+
+      return user;
+    } catch (e) {
       throw new NotFoundException('User not found');
     }
-
-    this.chatGateway.sendMessage(
-      'message',
-      user.name + ' Fuiste buscado',
-      'room-' + user.id,
-    );
-
-    return user;
   }
 
   async register(data: UserRegisterDTO): Promise<any> {
