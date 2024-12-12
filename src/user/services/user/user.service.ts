@@ -11,6 +11,7 @@ import { Pagination } from 'src/common/types/pagination.type';
 import { UserRegisterDTO } from 'src/user/dtos/user-register.dto';
 import { instanceToPlain } from 'class-transformer';
 import { ChatGateway } from 'src/user/gateways/chat/chat.gateway';
+import { ProduceNotificationsService } from 'src/notifications/services/produce-notifications/produce-notifications.service';
 
 @Injectable()
 export class UserService {
@@ -19,6 +20,7 @@ export class UserService {
     private userRepository: Repository<User>,
     private userAuthService: UserAuthService,
     private chatGateway: ChatGateway,
+    private produceNotificationsServices: ProduceNotificationsService,
   ) {}
 
   async findAll(
@@ -49,6 +51,12 @@ export class UserService {
         user.name + ' Fuiste buscado',
         'room-' + user.id,
       );
+
+      this.produceNotificationsServices.sendNotification({
+        userId: user.id,
+        title: 'Fuiste buscado',
+        body: user.name + ' Fuiste buscado',
+      });
 
       return user;
     } catch (e) {

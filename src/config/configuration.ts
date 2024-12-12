@@ -27,4 +27,10 @@ export default registerAs('configuration', () => ({
     port: parseInt(process.env.REDIS_PORT, 10) || 6379,
     password: process.env.REDIS_PASSWORD,
   },
+  kafka: {
+    clientId: process.env.KAFKA_CLIENT_ID,
+    broker: process.env.KAFKA_BROKER,
+    groupId: process.env.KAFKA_GROUP_ID,
+    notificationsTopic: process.env.KAFKA_NOTIFICATIONS_TOPIC,
+  },
 }));

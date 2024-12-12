@@ -13,6 +13,7 @@ import { CommonModule } from 'src/common/common.module';
 import { UserAuthController } from './controllers/user-auth/user-auth.controller';
 import { OperatorModule } from 'src/operator/operator.module';
 import { ChatGateway } from './gateways/chat/chat.gateway';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ChatGateway } from './gateways/chat/chat.gateway';
     TypeOrmModule.forFeature([User, UserAuth]),
     CommonModule,
     OperatorModule,
+    NotificationsModule,
   ],
   providers: [UserService, UserAuthService, ChatGateway],
   exports: [UserService, ChatGateway],

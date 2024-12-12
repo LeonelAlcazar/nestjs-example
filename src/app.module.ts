@@ -16,6 +16,7 @@ import { redisStore } from 'cache-manager-redis-yet';
 import { CcacheModule } from './ccache/ccache.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule } from 'nest-winston';
+import { NotificationsModule } from './notifications/notifications.module';
 import * as winston from 'winston';
 
 @Module({
@@ -95,6 +96,7 @@ import * as winston from 'winston';
     UserModule,
     LotteryModule,
     CcacheModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
