@@ -1,0 +1,28 @@
+FROM node:22.8.0-alpine AS build
+
+WORKDIR /app
+
+RUN apk --update --no-cache add curl g++ make py3-pip bash
+
+COPY package.json ./
+COPY ./apps ./apps
+COPY ./nest-cli.json ./
+COPY ./tsconfig.build.json ./
+COPY ./tsconfig.json ./
+
+RUN npm install
+
+RUN npx nest build backend-advanced
+
+RUN npm prune --production
+
+FROM node:22.8.0-alpine AS runtime
+
+WORKDIR /app
+
+COPY --from=build /app/dist/apps/backend-advanced ./dist/apps/backend-advanced
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/nest-cli.json ./nest-cli.json
+
+CMD ["node", "dist/apps/backend-advanced/main.js"]

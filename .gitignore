@@ -60,3 +60,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 /redisinsight_data
 /postgres_data_test
 /redis_data_test
+/kafka_data
+/zookeeper_data

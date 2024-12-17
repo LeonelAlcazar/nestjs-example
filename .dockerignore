@@ -1,0 +1,9 @@
+/postgres_data_dev
+/redis_data
+/redisinsight_data
+/postgres_data_test
+/redis_data_test
+.env
+.env.test
+/kafka_data
+/zookeeper_data
