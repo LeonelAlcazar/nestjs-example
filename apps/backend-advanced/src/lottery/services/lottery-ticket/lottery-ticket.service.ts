@@ -53,7 +53,7 @@ export class LotteryTicketService {
       const lottery = await this.lotteryService.findOne({ id: data.lotteryId });
 
       let finalNumber = '';
-      let numbers = [];
+      const numbers = [];
       for (let i = 0; i < 5; i++) {
         const numberString = data.number[i * 2] + data.number[i * 2 + 1];
         const number = parseInt(numberString);

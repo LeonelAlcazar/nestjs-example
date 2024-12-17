@@ -121,7 +121,7 @@ export class LotteryService {
         return acc + winner.amount;
       }, 0);
 
-      for (let winner of winners) {
+      for (const winner of winners) {
         const amount = (winner.amount / totalWinnersAmount) * prize;
         await this.walletService.addIncome(winner.userId, amount);
       }
@@ -165,7 +165,7 @@ export class LotteryService {
         },
       });
 
-      for (let lottery of lotteries) {
+      for (const lottery of lotteries) {
         try {
           await this.executeLottery(lottery.id);
         } catch (e) {

@@ -1,0 +1,9 @@
+node_modules/*
+dist/*
+postgres_data_dev
+postgres_data_test
+redis_data
+redis_data_test
+redisinsight_data
+kafka_data
+zookeeper_data

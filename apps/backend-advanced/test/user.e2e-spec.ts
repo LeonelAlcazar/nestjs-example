@@ -90,7 +90,7 @@ describe('AppController (e2e)', () => {
     await operatorRepository.delete({});
 
     operatorService = moduleFixture.get(OperatorService);
-    let operatorAuthService = moduleFixture.get(OperatorAuthService);
+    const operatorAuthService = moduleFixture.get(OperatorAuthService);
 
     await operatorService.register({
       name: 'Test admin',
