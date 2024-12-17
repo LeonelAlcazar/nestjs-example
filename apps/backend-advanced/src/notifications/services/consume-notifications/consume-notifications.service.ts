@@ -13,7 +13,7 @@ export class ConsumeNotificationsService {
   ) {}
 
   async onModuleInit() {
-    this.kafka = new Kafka({
+    /* this.kafka = new Kafka({
       clientId: this.configService.kafka.clientId + '-consumer',
       brokers: [this.configService.kafka.broker],
       logCreator: (level: logLevel) => {
@@ -22,7 +22,7 @@ export class ConsumeNotificationsService {
         };
       },
     });
-    this.consumeMessages(this.configService.kafka.notificationsTopic);
+    this.consumeMessages(this.configService.kafka.notificationsTopic); */
   }
 
   async consumeMessages(topic: string) {

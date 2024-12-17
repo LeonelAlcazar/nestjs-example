@@ -15,7 +15,7 @@ export class ProduceNotificationsService {
   ) {}
 
   async onModuleInit() {
-    this.kafka = new Kafka({
+    /* this.kafka = new Kafka({
       clientId: this.configService.kafka.clientId + '-producer',
       brokers: [this.configService.kafka.broker],
       logCreator: (level: logLevel) => {
@@ -26,8 +26,7 @@ export class ProduceNotificationsService {
     });
 
     this.producer = this.kafka.producer();
-    await this.producer.connect();
-
+    await this.producer.connect(); */
     /* this.producer.on(this.producer.events.DISCONNECT, async (e) => {
       while (true) {
         try {

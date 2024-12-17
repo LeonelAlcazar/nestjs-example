@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigType } from '@nestjs/config';
+import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { OperatorModule } from './operator/operator.module';
 import { UserModule } from './user/user.module';
@@ -18,6 +18,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule } from 'nest-winston';
 import { NotificationsModule } from './notifications/notifications.module';
 import * as winston from 'winston';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -73,7 +74,31 @@ import * as winston from 'winston';
       isGlobal: true,
       max: 10000,
     }),
-
+    ClientsModule.registerAsync({
+      isGlobal: true,
+      clients: [
+        {
+          inject: [configuration.KEY],
+          name: 'NOTIFICATIONS_SERVICE',
+          useFactory: (configService: ConfigType<typeof configuration>) => /* {
+            transport: Transport.KAFKA,
+            options: {
+              client: {
+                brokers: [configService.kafka.broker],
+                clientId: configService.kafka.clientId + '-producer',
+              },
+            },
+          } */ ({
+            transport: Transport.REDIS,
+            options: {
+              host: configService.redis.host,
+              port: configService.redis.port,
+              password: configService.redis.password,
+            },
+          }),
+        },
+      ],
+    }),
     /* CacheModule.registerAsync({
       inject: [configuration.KEY],
       useFactory: async (configService: ConfigType<typeof configuration>) => {

@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/backend-advanced/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/backend-advanced/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/backend-advanced",
+  "projects": {
+    "backend-advanced": {
+      "type": "application",
+      "root": "apps/backend-advanced",
+      "entryFile": "main",
+      "sourceRoot": "apps/backend-advanced/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/backend-advanced/tsconfig.app.json"
+      }
+    },
+    "notifications": {
+      "type": "application",
+      "root": "apps/notifications",
+      "entryFile": "main",
+      "sourceRoot": "apps/notifications/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notifications/tsconfig.app.json"
+      }
+    }
   }
 }

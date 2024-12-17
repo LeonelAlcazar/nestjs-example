@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,8 +11,10 @@ import { UserAuthService } from '../user-auth/user-auth.service';
 import { Pagination } from 'src/common/types/pagination.type';
 import { UserRegisterDTO } from 'src/user/dtos/user-register.dto';
 import { instanceToPlain } from 'class-transformer';
-import { ChatGateway } from 'src/user/gateways/chat/chat.gateway';
 import { ProduceNotificationsService } from 'src/notifications/services/produce-notifications/produce-notifications.service';
+import { ChatGateway } from 'src/user/gateways/chat/chat.gateway';
+import { ClientKafka, ClientRedis } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -21,6 +24,7 @@ export class UserService {
     private userAuthService: UserAuthService,
     private chatGateway: ChatGateway,
     private produceNotificationsServices: ProduceNotificationsService,
+    @Inject('NOTIFICATIONS_SERVICE') private notifications: ClientRedis,
   ) {}
 
   async findAll(
@@ -52,11 +56,22 @@ export class UserService {
         'room-' + user.id,
       );
 
-      this.produceNotificationsServices.sendNotification({
+      /* this.produceNotificationsServices.sendNotification({
         userId: user.id,
         title: 'Fuiste buscado',
         body: user.name + ' Fuiste buscado',
-      });
+      }); */
+
+      const response = await this.notifications.send(
+        'notifications.' + user.id,
+        {
+          userId: user.id,
+          title: 'Fuiste buscado',
+          body: user.name + ' Fuiste buscado',
+        },
+      );
+
+      console.log('Notification response:', await lastValueFrom(response));
 
       return user;
     } catch (e) {
