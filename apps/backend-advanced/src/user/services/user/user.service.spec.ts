@@ -3,31 +3,29 @@ import { UserService } from './user.service';
 import { UserAuthService } from '../user-auth/user-auth.service';
 import { ChatGateway } from 'src/user/gateways/chat/chat.gateway';
 import { User } from 'src/user/entities/user.entity';
-import { number } from 'joi';
 import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 
 class MockUserRepository {
-  constructor(...args) {}
+  constructor() {}
   findAndCount = jest.fn;
   findOne = jest.fn;
   save = jest.fn;
 }
 
 class MockUserAuthService {
-  constructor(...args) {}
+  constructor() {}
   generateAuth = jest.fn;
 }
 
 class MockChatGateway {
-  constructor(...args) {}
+  constructor() {}
   sendMessage = jest.fn;
 }
 
 describe('UserService', () => {
   let service: UserService;
   let userRepository: Repository<User>;
-  let userAuthService: MockUserAuthService;
   let chatGateway: ChatGateway;
 
   beforeEach(async () => {
@@ -51,7 +49,6 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     userRepository = module.get<Repository<User>>('UserRepository');
-    userAuthService = module.get<MockUserAuthService>(UserAuthService);
     chatGateway = module.get<ChatGateway>(ChatGateway);
   });
 
@@ -108,13 +105,6 @@ describe('UserService', () => {
     });
 
     it('findOne deberia devolver un error NotFound', () => {
-      const repositoryCall = jest
-        .spyOn(userRepository, 'findOne')
-        .mockResolvedValue(null);
-      const chatGatewayCall = jest
-        .spyOn(chatGateway, 'sendMessage')
-        .mockImplementation(() => {});
-
       expect(service.findOne({ id: '1' })).rejects.toEqual(
         new NotFoundException('User not found'),
       );

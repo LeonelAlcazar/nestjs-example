@@ -1,5 +1,4 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
 
 export function IsPublic() {
   return applyDecorators(

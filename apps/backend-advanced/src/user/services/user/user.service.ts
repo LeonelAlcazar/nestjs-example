@@ -10,10 +10,8 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { UserAuthService } from '../user-auth/user-auth.service';
 import { Pagination } from 'src/common/types/pagination.type';
 import { UserRegisterDTO } from 'src/user/dtos/user-register.dto';
-import { instanceToPlain } from 'class-transformer';
-import { ProduceNotificationsService } from 'src/notifications/services/produce-notifications/produce-notifications.service';
 import { ChatGateway } from 'src/user/gateways/chat/chat.gateway';
-import { ClientKafka, ClientRedis } from '@nestjs/microservices';
+import { ClientRedis } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -23,7 +21,6 @@ export class UserService {
     private userRepository: Repository<User>,
     private userAuthService: UserAuthService,
     private chatGateway: ChatGateway,
-    private produceNotificationsServices: ProduceNotificationsService,
     @Inject('NOTIFICATIONS_SERVICE') private notifications: ClientRedis,
   ) {}
 

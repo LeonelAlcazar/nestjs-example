@@ -1,9 +1,6 @@
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Cache } from 'cache-manager';
-import { CronJob } from 'cron';
 import { Pagination } from 'src/common/types/pagination.type';
 import { LotteryCreateDTO } from 'src/lottery/dtos/lottery-create.dto';
 import { LotteryTicket } from 'src/lottery/entities/lottery-ticket.entity';
@@ -73,12 +70,6 @@ export class LotteryService {
       lottery.endAt = data.endAt;
       lottery.createdByOperatorId = operatorId;
       lottery.status = LotteryStatus.OPEN;
-
-      const date = new Date(data.endAt);
-      const dom = date.getDate();
-      const month = date.getMonth();
-      const hour = date.getHours();
-      const minute = date.getMinutes();
 
       /* this.schedulerRegistry.addCronJob(
         'lottery-' + lottery.id,

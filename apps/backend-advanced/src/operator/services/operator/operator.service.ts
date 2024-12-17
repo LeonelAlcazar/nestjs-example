@@ -29,7 +29,7 @@ export class OperatorService {
   async setup() {
     const operators = await this.findAll({}, { page: 1, limit: 1 });
     if (operators.total === 0) {
-      const defaultOperator = this.register({
+      this.register({
         name: 'Default Operator',
         email: this.configService.defaults.operator.email,
         password: this.configService.defaults.operator.password,

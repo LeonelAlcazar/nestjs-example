@@ -1,14 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsDateString,
   IsNotEmpty,
   IsNumber,
   IsPositive,
   IsString,
   IsUUID,
   Length,
-  MaxLength,
-  MinLength,
 } from 'class-validator';
 
 export class LotteryTicketCreateDTO {

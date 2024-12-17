@@ -10,7 +10,6 @@ import { WalletModule } from 'src/user/wallet/wallet.module';
 import { OperatorModule } from 'src/operator/operator.module';
 import { UserModule } from 'src/user/user.module';
 import { CommonModule } from 'src/common/common.module';
-import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [

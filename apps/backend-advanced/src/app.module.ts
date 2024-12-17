@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { OperatorModule } from './operator/operator.module';
 import { UserModule } from './user/user.module';
@@ -12,11 +12,9 @@ import * as Joi from 'joi';
 import { JwtModule } from '@nestjs/jwt';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisModule } from '@nestjs-modules/ioredis';
-import { redisStore } from 'cache-manager-redis-yet';
 import { CcacheModule } from './ccache/ccache.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule } from 'nest-winston';
-import { NotificationsModule } from './notifications/notifications.module';
 import * as winston from 'winston';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
@@ -121,7 +119,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     UserModule,
     LotteryModule,
     CcacheModule,
-    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,3 @@
-import { InjectRedis } from '@nestjs-modules/ioredis';
 /* import { CacheInterceptor } from '@nestjs/cache-manager'; */
 /* import {
   CACHE_MANAGER,
@@ -10,7 +9,6 @@ import {
   Body,
   Controller,
   Get,
-  Inject,
   Param,
   Post,
   Query,
@@ -19,7 +17,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import Redis from 'ioredis';
 import { CacheEndpoint } from 'src/ccache/decorators/cache.decorator';
 import { CacheInterceptor } from 'src/ccache/interceptors/cache.interceptor';
 import { UrlUtilsService } from 'src/common/services/url-utils/url-utils.service';
@@ -33,7 +30,6 @@ export class LotteryController {
   constructor(
     private lotteryService: LotteryService,
     private urlUtilsService: UrlUtilsService,
-    @InjectRedis() private readonly redis: Redis,
   ) {}
 
   @Get('/test')
