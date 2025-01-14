@@ -27,7 +27,7 @@ export class UserController {
 
   @UserAuthentication()
   @Get('/me')
-  async me(@Req() req: Request) {
+  async me(@Req() req: any) {
     return this.userService.findOne({ id: req['user'].id });
   }
 

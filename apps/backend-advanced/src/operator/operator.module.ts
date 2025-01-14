@@ -3,14 +3,16 @@ import { OperatorService } from './services/operator/operator.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Operator } from './entities/operator.entity';
 import { OperatorAuth } from './entities/operator-auth.entity';
-import { OperatorAuthService } from './services/operator-auth/operator-auth.service';
 import { OperatorController } from './controllers/operator/operator.controller';
-import { OperatorAuthController } from './controllers/operator-auth/operator-auth.controller';
+import { OperatorAuthModule } from './operator-auth/operator-auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Operator, OperatorAuth])],
-  providers: [OperatorService, OperatorAuthService],
-  exports: [OperatorService, OperatorAuthService],
-  controllers: [OperatorController, OperatorAuthController],
+  imports: [
+    TypeOrmModule.forFeature([Operator, OperatorAuth]),
+    OperatorAuthModule,
+  ],
+  providers: [OperatorService],
+  exports: [OperatorService],
+  controllers: [OperatorController],
 })
 export class OperatorModule {}

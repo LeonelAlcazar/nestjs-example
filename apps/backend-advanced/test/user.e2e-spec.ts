@@ -17,7 +17,7 @@ import { Repository } from 'typeorm';
 import { OperatorService } from 'src/operator/services/operator/operator.service';
 import { Operator } from 'src/operator/entities/operator.entity';
 import { OperatorAuth } from 'src/operator/entities/operator-auth.entity';
-import { OperatorAuthService } from 'src/operator/services/operator-auth/operator-auth.service';
+import { OperatorAuthService } from 'src/operator/operator-auth/services/operator-auth.service';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;

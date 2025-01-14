@@ -28,7 +28,7 @@ export class LotteryTicketController {
 
   @UserAuthentication()
   @Post('/')
-  async create(@Body() data: LotteryTicketCreateDTO, @Req() req: Request) {
+  async create(@Body() data: LotteryTicketCreateDTO, @Req() req: any) {
     return this.lotteryTicketService.create(data, req['user'].id);
   }
 }

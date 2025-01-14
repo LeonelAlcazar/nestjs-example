@@ -6,11 +6,14 @@ import {
   Param,
   Post,
   Req,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { OperatorAuthentication } from 'src/operator/decorators/operator-authentication.decorator';
 import { OperatorRegisterDTO } from 'src/operator/dtos/operator-register.dto';
+import { OperatorJWTAuth } from 'src/operator/operator-auth/guards/operator-jwt-auth.guard';
 import { OperatorService } from 'src/operator/services/operator/operator.service';
 
 @ApiTags('operator')
@@ -21,9 +24,10 @@ export class OperatorController {
   @Get('/me')
   @CacheTTL(1000 * 60 * 60 * 24 * 7)
   @UseInterceptors(CacheInterceptor)
-  @OperatorAuthentication()
+  @UseGuards(OperatorJWTAuth)
+  //@OperatorAuthentication()
   async me(@Req() req: Request) {
-    return this.operatorService.findOne({ id: req['operator'].id });
+    return this.operatorService.findOne({ id: req['user'].id });
   }
 
   @Get('/:id')

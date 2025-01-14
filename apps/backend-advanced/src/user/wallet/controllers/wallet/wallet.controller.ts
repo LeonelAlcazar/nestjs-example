@@ -34,7 +34,7 @@ export class WalletController {
   @Post('/withdrawal')
   async requestWithdrawal(
     @Body() data: RequestWithdrawal,
-    @Req() request: Request,
+    @Req() request: any,
   ) {
     return this.walletService.requestWithdrawal(
       request['user'].id,

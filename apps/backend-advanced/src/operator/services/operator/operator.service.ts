@@ -9,10 +9,10 @@ import { Pagination } from 'src/common/types/pagination.type';
 import { OperatorRegisterDTO } from 'src/operator/dtos/operator-register.dto';
 import { Operator } from 'src/operator/entities/operator.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { OperatorAuthService } from '../operator-auth/operator-auth.service';
 import { ConfigType } from '@nestjs/config';
 import configuration from 'src/config/configuration';
 import { OperatorAuth } from 'src/operator/entities/operator-auth.entity';
+import { OperatorAuthService } from 'src/operator/operator-auth/services/operator-auth/operator-auth.service';
 
 @Injectable()
 export class OperatorService {
