@@ -18,6 +18,8 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { EndpointMetricsInterceptor } from './common/interceptors/endpoint-metrics.interceptor';
 
 @Module({
   imports: [
@@ -123,6 +125,12 @@ import { PassportModule } from '@nestjs/passport';
     CcacheModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: EndpointMetricsInterceptor,
+    },
+  ],
 })
 export class AppModule {}
