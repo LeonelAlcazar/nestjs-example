@@ -30,6 +30,7 @@ export class LotteryTicketService {
         where: criteria,
         take: pagination.limit,
         skip: (pagination.page - 1) * pagination.limit,
+        relations: ['lottery'],
       });
 
     return {
@@ -40,7 +41,10 @@ export class LotteryTicketService {
 
   async findOne(criteria: FindOptionsWhere<LotteryTicket>) {
     try {
-      return this.lotteryTicketRepository.findOneOrFail({ where: criteria });
+      return this.lotteryTicketRepository.findOneOrFail({
+        where: criteria,
+        relations: ['lottery'],
+      });
     } catch (e) {
       throw new NotFoundException('Lottery not found');
     }

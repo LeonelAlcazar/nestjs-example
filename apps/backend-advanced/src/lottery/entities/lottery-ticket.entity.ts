@@ -1,9 +1,10 @@
 import { BasicEntity } from 'src/database/basic.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Lottery } from 'src/lottery/entities/lottery.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity()
+@Index(['userId', 'lotteryId'])
 export class LotteryTicket extends BasicEntity {
   @Column({
     type: 'int',

@@ -20,6 +20,7 @@ import configuration from 'src/config/configuration';
           synchronize: false,
           autoLoadEntities: true,
           entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+          logging: true,
         };
       },
     }),
