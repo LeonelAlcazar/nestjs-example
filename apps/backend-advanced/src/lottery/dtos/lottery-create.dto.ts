@@ -1,9 +1,12 @@
+import { Field, InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty } from 'class-validator';
+import { IsDate, IsDateString, IsNotEmpty } from 'class-validator';
 
+@InputType()
 export class LotteryCreateDTO {
-  @IsDateString()
+  @IsDate()
   @IsNotEmpty()
   @ApiProperty()
+  @Field()
   endAt: Date;
 }

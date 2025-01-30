@@ -1,0 +1,58 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Operator {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  email: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Lottery {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  status: String!
+  createdBy: Operator
+  createdByOperatorId: String
+  closedBy: Operator
+  closedByOperatorId: String
+  endAt: DateTime!
+  winningNumber: String
+}
+
+type ToDo {
+  id: Int!
+  name: String!
+  description: String
+}
+
+type LotteryListResult {
+  lotteries: [Lottery!]
+  count: Int!
+}
+
+type Query {
+  getTodo: ToDo!
+  lotteries(criteria: LotteryListDTO, limit: Int!, page: Int!): LotteryListResult!
+  lottery(id: String!): Lottery!
+}
+
+input LotteryListDTO {
+  status: String!
+}
+
+type Mutation {
+  createLottery(lotteryCreateDTO: LotteryCreateDTO!): Lottery!
+}
+
+input LotteryCreateDTO {
+  endAt: DateTime!
+}

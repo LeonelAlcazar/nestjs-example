@@ -20,6 +20,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EndpointMetricsInterceptor } from './common/interceptors/endpoint-metrics.interceptor';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ToDoResolver } from './graphql/resolver/todo.resolver';
+import { LotteryResolver } from './graphql/resolver/lottery.resolver';
 
 @Module({
   imports: [
@@ -123,6 +127,10 @@ import { EndpointMetricsInterceptor } from './common/interceptors/endpoint-metri
     UserModule,
     LotteryModule,
     CcacheModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'apps/backend-advanced/schema.gql',
+    }),
   ],
   controllers: [AppController],
   providers: [
@@ -131,6 +139,8 @@ import { EndpointMetricsInterceptor } from './common/interceptors/endpoint-metri
       provide: APP_INTERCEPTOR,
       useClass: EndpointMetricsInterceptor,
     },
+    ToDoResolver,
+    LotteryResolver,
   ],
 })
 export class AppModule {}

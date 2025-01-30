@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { OperatorService } from 'src/operator/services/operator/operator.service';
@@ -19,7 +20,13 @@ export class OperatorAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    let request = context.switchToHttp().getRequest();
+
+    if (!request) {
+      const ctx = GqlExecutionContext.create(context);
+      request = ctx.getContext().req;
+    }
+
     const isPublic = this.reflector.get<boolean>(
       'isPublic',
       context.getHandler(),

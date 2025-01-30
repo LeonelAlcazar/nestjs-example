@@ -23,6 +23,10 @@ export class EndpointMetricsInterceptor implements NestInterceptor {
     const now = Date.now();
     const request: Request = context.switchToHttp().getRequest();
 
+    if (!request) {
+      return next.handle().pipe(tap(async (response) => {}));
+    }
+
     const callCountKey = 'metric:count:' + request.method + ':' + request.path;
     const callSuccessCountKey =
       'metric:success_count:' + request.method + ':' + request.path;

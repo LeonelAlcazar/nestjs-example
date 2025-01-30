@@ -21,5 +21,6 @@ import { CommonModule } from 'src/common/common.module';
   ],
   providers: [LotteryService, LotteryTicketService],
   controllers: [LotteryTicketController, LotteryController],
+  exports: [LotteryService],
 })
 export class LotteryModule {}
